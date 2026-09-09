@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BhashAI - Vernacular Education & Classroom Communication</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="app-header">
+      <div class="brand">
+        <span class="logo-icon">🌿</span>
+        <div>
+          <h1>BHASH AI</h1>
+          <p class="tagline">AI-assisted vernacular education for Indian tribal languages</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <div class="lang-badge">
+          <span class="lang-source">हिन्दी (Hindi)</span>
+          <span class="lang-arrow">➔</span>
+          <span class="lang-target font-olchiki">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</span>
+        </div>
+        <div id="connection-badge" class="badge-status badge-online">
+          <span class="pulse-dot"></span>
+          <span id="connection-text">ONLINE</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav">
+      <button class="nav-tab active" data-tab="voice">🎤 Voice Translation</button>
+      <button class="nav-tab" data-tab="text">📝 Text Translation</button>
+      <button class="nav-tab" data-tab="worksheets">📄 Worksheet Generator</button>
+      <button class="nav-tab" data-tab="flashcards">🖼️ Flashcards</button>
+      <button class="nav-tab" data-tab="offline">📴 Offline Resources</button>
+    </nav>
+
+    <!-- TAB 1: Voice Translation -->
+    <main id="tab-voice" class="tab-content active">
+      <div class="card panel-voice">
+        <h2>Voice Translator</h2>
+        <p class="subtitle">Teacher speaks in Hindi; student hears and reads in Santali (Ol Chiki).</p>
+
+        <div class="context-bar">
+          <label class="toggle-switch">
+            <input type="checkbox" id="voice-context-toggle" checked>
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">Context-Aware Disambiguation: <strong id="voice-context-status">ON</strong></span>
+          <span id="voice-topic-pill" class="pill pill-topic">Topic: Auto (Fruits / फल)</span>
+          <button id="btn-clear-context" class="btn btn-sm btn-ghost">Clear Context</button>
+        </div>
+
+        <div class="record-container">
+          <button id="btn-mic" class="mic-button">
+            <span class="mic-icon">🎙️</span>
+            <span id="mic-text">START RECORDING</span>
+          </button>
+          <p id="record-timer" class="record-timer">00:00</p>
+          <p class="hint">Or upload audio recording (.wav, .mp3, .webm):</p>
+          <input type="file" id="audio-file-input" accept="audio/*" class="file-input">
+        </div>
+
+        <div class="results-grid">
+          <div class="result-box">
+            <div class="box-header">
+              <span class="box-title">Hindi Speech Recognition (ASR)</span>
+              <span id="asr-latency" class="latency-tag">-- ms</span>
+            </div>
+            <div id="voice-hindi-output" class="box-content placeholder-text">
+              Spoken Hindi will appear here...
+            </div>
+          </div>
+
+          <div class="result-box">
+            <div class="box-header">
+              <span class="box-title">Santali Translation (Ol Chiki)</span>
+              <span id="trans-latency" class="latency-tag">-- ms</span>
+            </div>
+            <div id="voice-santali-output" class="box-content font-olchiki placeholder-text">
+              Santali translation will appear here...
+            </div>
+            <div class="box-actions">
+              <button id="btn-play-voice" class="btn btn-primary" disabled>
+                🔊 Play Santali Audio
+              </button>
+              <span id="voice-review-badge" class="badge-review hidden">⚠️ Review Recommended</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 2: Text Translation -->
+    <main id="tab-text" class="tab-content">
+      <div class="card">
+        <h2>Text Translator</h2>
+        <p class="subtitle">Translate Hindi lessons, instructions, and phrases into Ol Chiki.</p>
+
+        <div class="context-bar">
+          <label class="toggle-switch">
+            <input type="checkbox" id="text-context-toggle" checked>
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">Context-Aware: <strong id="text-context-status">ON</strong></span>
+          <input type="text" id="text-lesson-topic" placeholder="Lesson Topic (e.g. Fruits, Numbers)" class="input-topic">
+        </div>
+
+        <div class="text-grid">
+          <div class="input-col">
+            <label for="text-hindi-input">Hindi Text (हिन्दी):</label>
+            <textarea id="text-hindi-input" placeholder="यहाँ हिन्दी पाठ दर्ज करें... जैसे: आज हम फलों के बारे में सीखेंगे। यह एक आम है।" rows="6"></textarea>
+            <div class="input-actions">
+              <button id="btn-translate-text" class="btn btn-primary">Translate to Santali</button>
+              <button id="btn-sample-text" class="btn btn-secondary">Load Sample Sentence</button>
+            </div>
+          </div>
+
+          <div class="output-col">
+            <label>Santali Ol Chiki (ᱚᱞ ᱪᱤᱠᱤ):</label>
+            <div id="text-santali-output" class="box-content font-olchiki text-area-output placeholder-text">
+              Ol Chiki translation will appear here...
+            </div>
+            <div class="output-actions">
+              <button id="btn-play-text" class="btn btn-success" disabled>🔊 Play Santali</button>
+              <button id="btn-copy-text" class="btn btn-secondary">📋 Copy</button>
+              <span id="text-review-badge" class="badge-review hidden">⚠️ Review Recommended</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 3: Worksheet Generator -->
+    <main id="tab-worksheets" class="tab-content">
+      <div class="card">
+        <h2>Vernacular Worksheet Generator</h2>
+        <p class="subtitle">Upload classroom curriculum PDF to automatically generate source-grounded bilingual worksheets.</p>
+
+        <div class="upload-section">
+          <div class="upload-dropzone" id="pdf-dropzone">
+            <span class="drop-icon">📑</span>
+            <h3>Drag & Drop Lesson PDF here</h3>
+            <p>or click to browse from computer</p>
+            <input type="file" id="pdf-file-input" accept=".pdf" class="file-input-hidden">
+            <button id="btn-sample-pdf" class="btn btn-outline">📂 Load Class 1 Fruits Demo PDF</button>
+          </div>
+        </div>
+
+        <div id="worksheet-builder" class="worksheet-builder hidden">
+          <div class="builder-controls">
+            <div class="ctrl-group">
+              <label>Worksheet Title:</label>
+              <input type="text" id="ws-title" class="input-text">
+            </div>
+            <div class="ctrl-group">
+              <label>Status:</label>
+              <span id="ws-status-pill" class="pill pill-draft">DRAFT</span>
+            </div>
+            <div class="ctrl-actions">
+              <button id="btn-approve-ws" class="btn btn-success">✅ Approve Worksheet</button>
+              <button id="btn-export-student-pdf" class="btn btn-primary">📥 Export Student PDF</button>
+              <button id="btn-export-answer-key" class="btn btn-secondary">🔑 Export Answer Key</button>
+            </div>
+          </div>
+
+          <div class="questions-list" id="questions-list">
+            <!-- Questions rendered dynamically -->
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 4: Flashcards -->
+    <main id="tab-flashcards" class="tab-content">
+      <div class="card">
+        <h2>Visual Vernacular Flashcards</h2>
+        <p class="subtitle">Audio-enabled vocabulary flashcards extracted from classroom lessons.</p>
+
+        <div class="flashcard-carousel-container">
+          <button id="btn-prev-card" class="carousel-btn">❮</button>
+          <div class="flashcard" id="flashcard-active">
+            <div class="card-icon" id="card-icon">🥭</div>
+            <div class="card-words">
+              <h3 class="card-hindi" id="card-hindi">आम</h3>
+              <h2 class="card-santali font-olchiki" id="card-santali">ᱩᱞ</h2>
+              <p class="card-phonetic" id="card-phonetic">Ul (Mango)</p>
+            </div>
+            <div class="card-example">
+              <p id="card-ex-hindi">यह एक आम है।</p>
+              <p id="card-ex-santali" class="font-olchiki">ᱱᱚᱣᱟ ᱫᱚ ᱩᱞ ᱠᱟᱱᱟ ᱾</p>
+            </div>
+            <button id="btn-play-card" class="btn btn-primary btn-round">🔊 Listen Pronunciation</button>
+          </div>
+          <button id="btn-next-card" class="carousel-btn">❯</button>
+        </div>
+        <p class="carousel-counter"><span id="current-card-idx">1</span> of <span id="total-card-count">6</span></p>
+      </div>
+    </main>
+
+    <!-- TAB 5: Offline Resources -->
+    <main id="tab-offline" class="tab-content">
+      <div class="card">
+        <h2>Offline Model Manager & Diagnostics</h2>
+        <p class="subtitle">Low-resource device resource monitoring (~2 GB RAM CPU-only target).</p>
+
+        <div class="offline-hero">
+          <div>
+            <h3>Prepare Classroom Offline Mode</h3>
+            <p>Pre-downloads and verifies all models so the application functions 100% without internet.</p>
+          </div>
+          <button id="btn-prepare-offline" class="btn btn-primary btn-lg">⚡ Prepare Offline Mode</button>
+        </div>
+
+        <div class="models-grid" id="models-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+
+        <div class="memory-card">
+          <h3>RAM & Process Resource Monitor</h3>
+          <div class="memory-metrics" id="memory-metrics">
+            Loading metrics...
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Audio Player (Hidden) -->
+    <audio id="global-audio-player"></audio>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>BhashAI • Smart India Hackathon Prototype • Hindi → Santali (Ol Chiki Script)</p>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

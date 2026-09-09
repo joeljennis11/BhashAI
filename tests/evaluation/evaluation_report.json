@@ -1,0 +1,107 @@
+{
+  "total_evaluated": 10,
+  "average_chrf": 0.31,
+  "ol_chiki_script_compliance_percent": 100.0,
+  "evaluation_results": [
+    {
+      "id": 1,
+      "hindi": "नमस्ते, आप सब कैसे हैं?",
+      "expected_santali": "ᱡᱚᱦᱟᱨ, ᱟᱯᱮ ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱯᱮᱭᱟ?",
+      "model_output": "ᱦᱚᱞᱮᱹ ᱟᱢ ᱪᱮᱫ ᱞᱮᱠᱟ᱾",
+      "chrf_score": 0.279,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 13.36
+    },
+    {
+      "id": 2,
+      "hindi": "आज हम फलों के बारे में सीखेंगे।",
+      "expected_santali": "ᱛᱮᱦᱮᱧ ᱫᱚ ᱵᱚᱱ ᱡᱚ ᱵᱟᱵᱚᱛ ᱵᱚᱱ ᱪᱮᱫ-ᱟ ᱾",
+      "model_output": "ᱛᱮᱦᱮᱧ ᱟᱢ ᱯᱷᱚᱞᱮ ᱤᱫᱤ ᱠᱟᱛᱮ ᱵᱟᱰᱟᱭ ᱧᱟᱢᱼᱟ᱾",
+      "chrf_score": 0.098,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.342
+    },
+    {
+      "id": 3,
+      "hindi": "यह एक आम है।",
+      "expected_santali": "ᱱᱚᱣᱟ ᱫᱚ ᱩᱞ ᱠᱟᱱᱟ ᱾",
+      "model_output": "ᱱᱚᱶᱟ ᱫᱚ ᱢᱤᱫᱴᱟᱝ ᱥᱟᱫᱷᱟᱨᱚᱱ ᱠᱟᱛᱷᱟ ᱠᱟᱱᱟ᱾",
+      "chrf_score": 0.174,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.248
+    },
+    {
+      "id": 4,
+      "hindi": "सेब लाल रंग का होता है।",
+      "expected_santali": "ᱥᱮᱣ ᱫᱚ ᱟᱨᱟᱜ ᱜᱮᱭᱟ ᱾",
+      "model_output": "ᱟᱢᱚᱞ ᱫᱚ ᱟᱨᱟᱜ᱾",
+      "chrf_score": 0.4,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.178
+    },
+    {
+      "id": 5,
+      "hindi": "टोकरी में पाँच फल हैं।",
+      "expected_santali": "ᱴᱩᱠᱨᱤ ᱨᱮ ᱢᱚᱬᱮ ᱜᱚᱴᱟᱝ ᱡᱚ ᱢᱮᱱᱟᱜ-ᱟ ᱾",
+      "model_output": "ᱵᱟᱠᱮᱴ ᱨᱮ ᱢᱚᱬᱮ ᱜᱚᱴᱟᱝ ᱯᱷᱚᱞᱮ ᱢᱮᱱᱟᱜᱼᱟ᱾",
+      "chrf_score": 0.5,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.785
+    },
+    {
+      "id": 6,
+      "hindi": "अपनी किताब खोलिए और पढ़िए।",
+      "expected_santali": "ᱟᱢᱟᱜ ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱢᱮ ᱟᱨ ᱯᱟᱲᱦᱟᱣ ᱢᱮ ᱾",
+      "model_output": "ᱟᱢᱟᱜ ᱯᱚᱛᱚᱵ ᱮᱦᱚᱵ ᱢᱮ ᱟᱨ ᱯᱟᱲᱦᱟᱣ ᱢᱮ᱾",
+      "chrf_score": 0.542,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.243
+    },
+    {
+      "id": 7,
+      "hindi": "पत्ता हरा है।",
+      "expected_santali": "ᱥᱟᱠᱟᱢ ᱫᱚ ᱦᱟᱹᱨᱭᱟᱹᱲ ᱜᱮᱭᱟ ᱾",
+      "model_output": "ᱯᱟᱱᱛᱷᱟ ᱫᱚ ᱜᱟᱹᱨᱰᱩ᱾",
+      "chrf_score": 0.057,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.241
+    },
+    {
+      "id": 8,
+      "hindi": "गाय हमें दूध देती है।",
+      "expected_santali": "ᱜᱟᱹᱭ ᱫᱚ ᱛᱳᱣᱟᱭ ᱮᱢᱟ ᱵᱚᱱᱟ ᱾",
+      "model_output": "ᱜᱳᱭ ᱫᱚ ᱤᱧᱟᱹᱜ دودھ ᱮ ᱮᱢ ᱮᱫᱟ᱾",
+      "chrf_score": 0.089,
+      "ol_chiki_ratio": 0.8,
+      "status": "Needs Review",
+      "latency_seconds": 0.313
+    },
+    {
+      "id": 9,
+      "hindi": "आपका क्या नाम है?",
+      "expected_santali": "ᱟᱢᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱪᱮᱫ?",
+      "model_output": "ᱟᱢᱟᱜ ᱧᱩᱛᱩᱢ ᱪᱮᱫ ?",
+      "chrf_score": 0.643,
+      "ol_chiki_ratio": 1.0,
+      "status": "Correct",
+      "latency_seconds": 0.203
+    },
+    {
+      "id": 10,
+      "hindi": "यह बहुत मीठा आम है।",
+      "expected_santali": "ᱱᱚᱣᱟ ᱫᱚ ᱟᱹᱰᱤ ᱦᱮᱲᱮᱢ ᱩᱞ ᱠᱟᱱᱟ ᱾",
+      "model_output": "ᱱᱚᱶᱟ ᱫᱚ ᱟᱹᱰᱤ ᱥᱟᱫᱷᱟᱨᱚᱱ᱾",
+      "chrf_score": 0.318,
+      "ol_chiki_ratio": 1.0,
+      "status": "Needs Review",
+      "latency_seconds": 0.166
+    }
+  ]
+}

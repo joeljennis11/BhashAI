@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "category": "classroom_greeting",
+    "hindi": "नमस्ते, आप सब कैसे हैं?",
+    "expected_santali": "ᱡᱚᱦᱟᱨ, ᱟᱯᱮ ᱪᱮᱫ ᱞᱮᱠᱟ ᱢᱮᱱᱟᱜ ᱯᱮᱭᱟ?",
+    "topic": "Classroom"
+  },
+  {
+    "id": 2,
+    "category": "fln_instruction",
+    "hindi": "आज हम फलों के बारे में सीखेंगे।",
+    "expected_santali": "ᱛᱮᱦᱮᱧ ᱫᱚ ᱵᱚᱱ ᱡᱚ ᱵᱟᱵᱚᱛ ᱵᱚᱱ ᱪᱮᱫ-ᱟ ᱾",
+    "topic": "Fruits"
+  },
+  {
+    "id": 3,
+    "category": "fruit_identification",
+    "hindi": "यह एक आम है।",
+    "expected_santali": "ᱱᱚᱣᱟ ᱫᱚ ᱩᱞ ᱠᱟᱱᱟ ᱾",
+    "topic": "Fruits"
+  },
+  {
+    "id": 4,
+    "category": "fruit_description",
+    "hindi": "सेब लाल रंग का होता है।",
+    "expected_santali": "ᱥᱮᱣ ᱫᱚ ᱟᱨᱟᱜ ᱜᱮᱭᱟ ᱾",
+    "topic": "Fruits"
+  },
+  {
+    "id": 5,
+    "category": "numbers_counting",
+    "hindi": "टोकरी में पाँच फल हैं।",
+    "expected_santali": "ᱴᱩᱠᱨᱤ ᱨᱮ ᱢᱚᱬᱮ ᱜᱚᱴᱟᱝ ᱡᱚ ᱢᱮᱱᱟᱜ-ᱟ ᱾",
+    "topic": "Numbers"
+  },
+  {
+    "id": 6,
+    "category": "classroom_action",
+    "hindi": "अपनी किताब खोलिए और पढ़िए।",
+    "expected_santali": "ᱟᱢᱟᱜ ᱯᱩᱛᱷᱤ ᱡᱷᱤᱡᱽ ᱢᱮ ᱟᱨ ᱯᱟᱲᱦᱟᱣ ᱢᱮ ᱾",
+    "topic": "Classroom"
+  },
+  {
+    "id": 7,
+    "category": "colors",
+    "hindi": "पत्ता हरा है।",
+    "expected_santali": "ᱥᱟᱠᱟᱢ ᱫᱚ ᱦᱟᱹᱨᱭᱟᱹᱲ ᱜᱮᱭᱟ ᱾",
+    "topic": "Nature"
+  },
+  {
+    "id": 8,
+    "category": "animals",
+    "hindi": "गाय हमें दूध देती है।",
+    "expected_santali": "ᱜᱟᱹᱭ ᱫᱚ ᱛᱳᱣᱟᱭ ᱮᱢᱟ ᱵᱚᱱᱟ ᱾",
+    "topic": "Animals"
+  },
+  {
+    "id": 9,
+    "category": "question",
+    "hindi": "आपका क्या नाम है?",
+    "expected_santali": "ᱟᱢᱟᱜ ᱧᱩᱛᱩᱢ ᱫᱚ ᱪᱮᱫ?",
+    "topic": "Classroom"
+  },
+  {
+    "id": 10,
+    "category": "ambiguity_context",
+    "hindi": "यह बहुत मीठा आम है।",
+    "expected_santali": "ᱱᱚᱣᱟ ᱫᱚ ᱟᱹᱰᱤ ᱦᱮᱲᱮᱢ ᱩᱞ ᱠᱟᱱᱟ ᱾",
+    "topic": "Fruits"
+  }
+]

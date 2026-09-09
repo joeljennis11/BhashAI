@@ -1,0 +1,136 @@
+{
+  "timestamp": "2026-09-09 21:15:44",
+  "platform": "nt",
+  "initial_memory_mb": {
+    "total_ram_mb": 12136.7,
+    "available_ram_mb": 550.2,
+    "used_ram_mb": 11586.5,
+    "ram_percent": 95.5,
+    "process_rss_mb": 33.2,
+    "process_vms_mb": 118.7,
+    "is_low_memory": false
+  },
+  "model_load_times": {
+    "asr_whisper_tiny_seconds": 9.971,
+    "indictrans2_onnx_seconds": 10.212,
+    "santali_tts_seconds": 0.0
+  },
+  "pipeline_benchmarks": [
+    {
+      "index": 1,
+      "hindi_text": "आज हम फलों के बारे में सीखेंगे।",
+      "santali_translation": "ᱛᱮᱦᱮᱧ ᱟᱢ ᱯᱷᱚᱞᱮ ᱤᱫᱤ ᱠᱟᱛᱮ ᱵᱟᱰᱟᱭ ᱧᱟᱢᱼᱟ᱾",
+      "asr_latency_s": 3.251,
+      "trans_latency_s": 7.221,
+      "tts_latency_s": 0.048,
+      "v2v_total_s": 10.52,
+      "process_rss_mb": 837.7
+    },
+    {
+      "index": 2,
+      "hindi_text": "यह एक आम है।",
+      "santali_translation": "ᱱᱚᱶᱟ ᱫᱚ ᱢᱤᱫᱴᱟᱝ ᱥᱟᱫᱷᱟᱨᱚᱱ ᱠᱟᱛᱷᱟ ᱠᱟᱱᱟ᱾",
+      "asr_latency_s": 0.531,
+      "trans_latency_s": 0.14,
+      "tts_latency_s": 0.056,
+      "v2v_total_s": 0.727,
+      "process_rss_mb": 839.1
+    },
+    {
+      "index": 3,
+      "hindi_text": "सेब लाल रंग का होता है।",
+      "santali_translation": "ᱟᱢᱚᱞ ᱫᱚ ᱟᱨᱟᱜ᱾",
+      "asr_latency_s": 0.493,
+      "trans_latency_s": 0.113,
+      "tts_latency_s": 0.016,
+      "v2v_total_s": 0.622,
+      "process_rss_mb": 840.1
+    },
+    {
+      "index": 4,
+      "hindi_text": "केला मीठा और पीला होता है।",
+      "santali_translation": "ᱠᱟᱞ ᱫᱚ ᱢᱚᱫᱽᱫᱷᱟᱹᱨ ᱟᱨ ᱡᱚᱞᱟ᱾",
+      "asr_latency_s": 0.828,
+      "trans_latency_s": 0.185,
+      "tts_latency_s": 0.015,
+      "v2v_total_s": 1.028,
+      "process_rss_mb": 840.7
+    },
+    {
+      "index": 5,
+      "hindi_text": "अंगूर गुच्छों में उगते हैं।",
+      "santali_translation": "ᱜᱟᱹᱨᱰᱩ ᱠᱚ ᱜᱩᱴ ᱨᱮ ᱡᱟᱱᱟᱢᱚᱜᱼᱟ᱾",
+      "asr_latency_s": 0.509,
+      "trans_latency_s": 0.169,
+      "tts_latency_s": 0.015,
+      "v2v_total_s": 0.693,
+      "process_rss_mb": 841.5
+    },
+    {
+      "index": 6,
+      "hindi_text": "टोकरी में पाँच फल रखे हैं।",
+      "santali_translation": "ᱵᱟᱠᱮᱴ ᱨᱮ ᱢᱚᱬᱮ ᱜᱚᱴᱟᱝ ᱯᱷᱚᱞᱮ ᱫᱚᱦᱚ ᱟᱠᱟᱫᱟ᱾",
+      "asr_latency_s": 0.518,
+      "trans_latency_s": 0.194,
+      "tts_latency_s": 0.015,
+      "v2v_total_s": 0.727,
+      "process_rss_mb": 841.4
+    },
+    {
+      "index": 7,
+      "hindi_text": "पत्ता हरा और सुंदर है।",
+      "santali_translation": "ᱱᱚᱶᱟ ᱯᱟᱱᱛᱷᱟ ᱫᱚ ᱜᱟᱹᱨᱰᱩ ᱟᱨ ᱱᱟᱯᱟᱭ᱾",
+      "asr_latency_s": 0.682,
+      "trans_latency_s": 0.21,
+      "tts_latency_s": 0.019,
+      "v2v_total_s": 0.911,
+      "process_rss_mb": 842.3
+    },
+    {
+      "index": 8,
+      "hindi_text": "अपनी किताब खोलिए और अभ्यास कीजिए।",
+      "santali_translation": "ᱟᱢᱟᱜ ᱯᱚᱛᱚᱵ ᱮᱦᱚᱵ ᱢᱮ ᱟᱨ ᱥᱮᱪᱮᱫ ᱢᱮ᱾",
+      "asr_latency_s": 0.535,
+      "trans_latency_s": 0.159,
+      "tts_latency_s": 0.015,
+      "v2v_total_s": 0.709,
+      "process_rss_mb": 842.9
+    },
+    {
+      "index": 9,
+      "hindi_text": "गाय हमें मीठा दूध देती है।",
+      "santali_translation": "ᱜᱳᱭ ᱫᱚ ᱤᱧᱟᱹᱜ ᱢᱚᱫᱽᱫᱷᱟᱹᱨ ᱮᱢᱼᱟ᱾",
+      "asr_latency_s": 0.509,
+      "trans_latency_s": 0.211,
+      "tts_latency_s": 0.013,
+      "v2v_total_s": 0.733,
+      "process_rss_mb": 843.7
+    },
+    {
+      "index": 10,
+      "hindi_text": "यह बहुत रसीला और स्वादिष्ट आम है।",
+      "santali_translation": "ᱱᱚᱶᱟ ᱫᱚ ᱟᱹᱰᱤ ᱡᱚᱞᱟᱣᱟᱱᱟᱜ ᱟᱨ ᱥᱩᱪᱤ ᱥᱟᱫᱷᱟᱨᱚᱱ᱾",
+      "asr_latency_s": 0.599,
+      "trans_latency_s": 0.209,
+      "tts_latency_s": 0.015,
+      "v2v_total_s": 0.823,
+      "process_rss_mb": 843.9
+    }
+  ],
+  "averages": {
+    "avg_asr_latency_s": 0.846,
+    "avg_trans_latency_s": 0.881,
+    "avg_tts_latency_s": 0.023,
+    "avg_v2v_total_s": 1.749
+  },
+  "peak_ram_mb": 843.9,
+  "final_memory_mb": {
+    "total_ram_mb": 12136.7,
+    "available_ram_mb": 426.7,
+    "used_ram_mb": 11710.0,
+    "ram_percent": 96.5,
+    "process_rss_mb": 843.9,
+    "process_vms_mb": 1062.7,
+    "is_low_memory": true
+  }
+}
