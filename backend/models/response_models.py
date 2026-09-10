@@ -23,6 +23,7 @@ class TranslationResponse(BaseModel):
     context_applied: bool = False
     detected_topic: Optional[str] = None
     audio_url: Optional[str] = None
+    phonetic_text: Optional[str] = None
 
 
 class VoiceTranslationResponse(BaseModel):
@@ -37,6 +38,7 @@ class VoiceTranslationResponse(BaseModel):
     translation_latency: float
     tts_latency: float
     total_latency: float
+    phonetic_text: Optional[str] = None
 
 
 class TTSResponse(BaseModel):
@@ -45,6 +47,7 @@ class TTSResponse(BaseModel):
     sample_rate: int
     channels: int
     cached: bool
+    phonetic_text: Optional[str] = None
 
 
 class EducationalContent(BaseModel):
@@ -75,10 +78,12 @@ class WorksheetQuestion(BaseModel):
     question_type: str
     hindi_prompt: str
     santali_prompt: str
+    phonetic_prompt: Optional[str] = None
     options_hindi: Optional[List[str]] = None
     options_santali: Optional[List[str]] = None
     answer_hindi: str
     answer_santali: str
+    phonetic_answer: Optional[str] = None
     source_reference: Optional[str] = None
     audio_url: Optional[str] = None
 

@@ -92,48 +92,96 @@ def load_audio_for_asr(
     """
     Loads audio from a file path or in-memory bytes, converts to mono,
     resamples to 16kHz float32 array in range [-1.0, 1.0] suitable for Whisper.
+    Supports WebM, OGG, WAV, MP3, M4A via FFmpeg subprocess or pydub fallback.
     """
-    # 1. Try wave first if it's already a WAV file
+    import subprocess
+
+    # 1. Native FFmpeg decode (handles browser WebM, Ogg, MP3, WAV directly)
     try:
-        if isinstance(audio_path_or_bytes, (str, Path)):
-            with wave.open(str(audio_path_or_bytes), "rb") as w:
-                nchannels = w.getnchannels()
-                sampwidth = w.getsampwidth()
-                framerate = w.getframerate()
-                nframes = w.getnframes()
-                raw_bytes = w.readframes(nframes)
-            
-            if sampwidth == 2:
-                samples = np.frombuffer(raw_bytes, dtype=np.int16).astype(np.float32) / 32768.0
-            elif sampwidth == 1:
-                samples = (np.frombuffer(raw_bytes, dtype=np.uint8).astype(np.float32) - 128.0) / 128.0
-            else:
-                samples = np.frombuffer(raw_bytes, dtype=np.int32).astype(np.float32) / 2147483648.0
+        if isinstance(audio_path_or_bytes, bytes):
+            cmd = [
+                "ffmpeg", "-nostdin", "-threads", "0",
+                "-i", "pipe:0",
+                "-f", "s16le", "-ac", "1", "-acodec", "pcm_s16le",
+                "-ar", str(target_sample_rate), "-"
+            ]
+            proc = subprocess.run(cmd, input=audio_path_or_bytes, capture_output=True, check=True)
+            out_bytes = proc.stdout
+        elif isinstance(audio_path_or_bytes, (str, Path)):
+            cmd = [
+                "ffmpeg", "-nostdin", "-threads", "0",
+                "-i", str(audio_path_or_bytes),
+                "-f", "s16le", "-ac", "1", "-acodec", "pcm_s16le",
+                "-ar", str(target_sample_rate), "-"
+            ]
+            proc = subprocess.run(cmd, capture_output=True, check=True)
+            out_bytes = proc.stdout
+        elif hasattr(audio_path_or_bytes, "read"):
+            data = audio_path_or_bytes.read()
+            cmd = [
+                "ffmpeg", "-nostdin", "-threads", "0",
+                "-i", "pipe:0",
+                "-f", "s16le", "-ac", "1", "-acodec", "pcm_s16le",
+                "-ar", str(target_sample_rate), "-"
+            ]
+            proc = subprocess.run(cmd, input=data, capture_output=True, check=True)
+            out_bytes = proc.stdout
+        else:
+            out_bytes = None
 
-            if nchannels > 1:
-                samples = samples.reshape(-1, nchannels).mean(axis=1)
-
-            if framerate != target_sample_rate and len(samples) > 0:
-                # Linear or scipy resample
-                from scipy import signal
-                num_resampled = int(len(samples) * target_sample_rate / framerate)
-                samples = signal.resample(samples, num_resampled)
-
-            return samples.astype(np.float32)
+        if out_bytes and len(out_bytes) > 0:
+            return np.frombuffer(out_bytes, dtype=np.int16).astype(np.float32) / 32768.0
     except Exception:
         pass
 
-    # 2. Fallback to pydub / soundfile for MP3/WebM/OGG
+    # 2. Fallback to pydub
     try:
         from pydub import AudioSegment
         if isinstance(audio_path_or_bytes, bytes):
             seg = AudioSegment.from_file(io.BytesIO(audio_path_or_bytes))
+        elif hasattr(audio_path_or_bytes, "read"):
+            seg = AudioSegment.from_file(audio_path_or_bytes)
         else:
             seg = AudioSegment.from_file(str(audio_path_or_bytes))
-        
+
         seg = seg.set_frame_rate(target_sample_rate).set_channels(1).set_sample_width(2)
         raw_data = seg.raw_data
-        samples = np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
-        return samples
+        return np.frombuffer(raw_data, dtype=np.int16).astype(np.float32) / 32768.0
+    except Exception:
+        pass
+
+    # 3. Fallback to standard library wave (WAV files only)
+    try:
+        if isinstance(audio_path_or_bytes, (str, Path)):
+            wav_file = wave.open(str(audio_path_or_bytes), "rb")
+        elif isinstance(audio_path_or_bytes, bytes):
+            wav_file = wave.open(io.BytesIO(audio_path_or_bytes), "rb")
+        else:
+            wav_file = wave.open(audio_path_or_bytes, "rb")
+
+        with wav_file as w:
+            nchannels = w.getnchannels()
+            sampwidth = w.getsampwidth()
+            framerate = w.getframerate()
+            nframes = w.getnframes()
+            raw_bytes = w.readframes(nframes)
+
+        if sampwidth == 2:
+            samples = np.frombuffer(raw_bytes, dtype=np.int16).astype(np.float32) / 32768.0
+        elif sampwidth == 1:
+            samples = (np.frombuffer(raw_bytes, dtype=np.uint8).astype(np.float32) - 128.0) / 128.0
+        else:
+            samples = np.frombuffer(raw_bytes, dtype=np.int32).astype(np.float32) / 2147483648.0
+
+        if nchannels > 1:
+            samples = samples.reshape(-1, nchannels).mean(axis=1)
+
+        if framerate != target_sample_rate and len(samples) > 0:
+            step = framerate / float(target_sample_rate)
+            indices = np.arange(0, len(samples), step).astype(int)
+            indices = indices[indices < len(samples)]
+            samples = samples[indices]
+
+        return samples.astype(np.float32)
     except Exception as e:
         raise RuntimeError(f"Failed to load and convert audio for ASR: {e}")

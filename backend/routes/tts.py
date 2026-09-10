@@ -17,7 +17,7 @@ router = APIRouter(prefix="/api/tts", tags=["TTS"])
 @router.post("", response_model=TTSResponse)
 async def synthesize_speech(request: TTSRequest):
     """
-    Synthesizes Santali text into a 16kHz mono WAV file.
+    Synthesizes Santali text into natural spoken audio.
     """
     try:
         service = SantaliTTSService.get_instance()
@@ -28,7 +28,8 @@ async def synthesize_speech(request: TTSRequest):
             duration_seconds=result["duration_seconds"],
             sample_rate=result["sample_rate"],
             channels=result["channels"],
-            cached=result["cached"]
+            cached=result["cached"],
+            phonetic_text=result.get("phonetic_text")
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Speech synthesis error: {str(e)}")
@@ -37,14 +38,17 @@ async def synthesize_speech(request: TTSRequest):
 @router.get("/audio/{filename}")
 async def get_audio_file(filename: str):
     """
-    Streams generated WAV audio file to client or Android player.
+    Streams generated audio file (MP3 or WAV) to client or Android player.
     """
     audio_path = Path("generated/audio") / filename
     if not audio_path.exists():
         raise HTTPException(status_code=404, detail="Audio file not found.")
 
+    media_type = "audio/mpeg" if filename.endswith(".mp3") else "audio/wav"
+
     return FileResponse(
         path=str(audio_path),
-        media_type="audio/wav",
+        media_type=media_type,
         filename=filename
     )
+

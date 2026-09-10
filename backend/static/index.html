@@ -14,16 +14,16 @@
     <!-- Header -->
     <header class="app-header">
       <div class="brand">
-        <span class="logo-icon">🌿</span>
+        <div class="brand-badge">BhashAI</div>
         <div>
           <h1>BHASH AI</h1>
-          <p class="tagline">AI-assisted vernacular education for Indian tribal languages</p>
+          <p class="tagline">Vernacular education and communication for Indian tribal languages</p>
         </div>
       </div>
       <div class="header-badges">
         <div class="lang-badge">
           <span class="lang-source">हिन्दी (Hindi)</span>
-          <span class="lang-arrow">➔</span>
+          <span class="lang-arrow">-></span>
           <span class="lang-target font-olchiki">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</span>
         </div>
         <div id="connection-badge" class="badge-status badge-online">
@@ -35,18 +35,19 @@
 
     <!-- Navigation Tabs -->
     <nav class="app-nav">
-      <button class="nav-tab active" data-tab="voice">🎤 Voice Translation</button>
-      <button class="nav-tab" data-tab="text">📝 Text Translation</button>
-      <button class="nav-tab" data-tab="worksheets">📄 Worksheet Generator</button>
-      <button class="nav-tab" data-tab="flashcards">🖼️ Flashcards</button>
-      <button class="nav-tab" data-tab="offline">📴 Offline Resources</button>
+      <button class="nav-tab active" data-tab="voice">Voice Translation</button>
+      <button class="nav-tab" data-tab="text">Text Translation</button>
+      <button class="nav-tab" data-tab="worksheets">Worksheet Generator</button>
+      <button class="nav-tab" data-tab="flashcards">Flashcards</button>
+      <button class="nav-tab" data-tab="munda">Ho & Mundari Lead</button>
+      <button class="nav-tab" data-tab="offline">Offline Resources</button>
     </nav>
 
     <!-- TAB 1: Voice Translation -->
     <main id="tab-voice" class="tab-content active">
       <div class="card panel-voice">
         <h2>Voice Translator</h2>
-        <p class="subtitle">Teacher speaks in Hindi; student hears and reads in Santali (Ol Chiki).</p>
+        <p class="subtitle">Teacher speaks in Hindi; student hears and reads in Santali (Ol Chiki) with low latency.</p>
 
         <div class="context-bar">
           <label class="toggle-switch">
@@ -54,18 +55,24 @@
             <span class="slider"></span>
           </label>
           <span class="toggle-label">Context-Aware Disambiguation: <strong id="voice-context-status">ON</strong></span>
-          <span id="voice-topic-pill" class="pill pill-topic">Topic: Auto (Fruits / फल)</span>
+          <span id="voice-topic-pill" class="pill pill-topic">Topic: Auto</span>
           <button id="btn-clear-context" class="btn btn-sm btn-ghost">Clear Context</button>
         </div>
 
         <div class="record-container">
           <button id="btn-mic" class="mic-button">
-            <span class="mic-icon">🎙️</span>
+            <span class="mic-indicator"></span>
             <span id="mic-text">START RECORDING</span>
           </button>
           <p id="record-timer" class="record-timer">00:00</p>
-          <p class="hint">Or upload audio recording (.wav, .mp3, .webm):</p>
+          <p class="hint">Or select audio file (.wav, .mp3, .webm):</p>
           <input type="file" id="audio-file-input" accept="audio/*" class="file-input">
+        </div>
+
+        <div class="latency-banner" id="latency-banner">
+          <span class="latency-label">Pipeline Latency:</span>
+          <span id="total-latency" class="latency-val">-- s</span>
+          <span class="latency-breakdown" id="latency-breakdown">(ASR: -- ms | Translation: -- ms | TTS: -- ms)</span>
         </div>
 
         <div class="results-grid">
@@ -87,11 +94,14 @@
             <div id="voice-santali-output" class="box-content font-olchiki placeholder-text">
               Santali translation will appear here...
             </div>
+            <div id="voice-phonetic-output" class="phonetic-row hidden">
+              <strong>Pronunciation:</strong> <span id="voice-phonetic-text"></span>
+            </div>
             <div class="box-actions">
               <button id="btn-play-voice" class="btn btn-primary" disabled>
-                🔊 Play Santali Audio
+                Play Santali Audio
               </button>
-              <span id="voice-review-badge" class="badge-review hidden">⚠️ Review Recommended</span>
+              <span id="voice-review-badge" class="badge-review hidden">Review Recommended</span>
             </div>
           </div>
         </div>
@@ -128,10 +138,13 @@
             <div id="text-santali-output" class="box-content font-olchiki text-area-output placeholder-text">
               Ol Chiki translation will appear here...
             </div>
+            <div id="text-phonetic-output" class="phonetic-row hidden">
+              <strong>Pronunciation:</strong> <span id="text-phonetic-text"></span>
+            </div>
             <div class="output-actions">
-              <button id="btn-play-text" class="btn btn-success" disabled>🔊 Play Santali</button>
-              <button id="btn-copy-text" class="btn btn-secondary">📋 Copy</button>
-              <span id="text-review-badge" class="badge-review hidden">⚠️ Review Recommended</span>
+              <button id="btn-play-text" class="btn btn-success" disabled>Play Santali</button>
+              <button id="btn-copy-text" class="btn btn-secondary">Copy</button>
+              <span id="text-review-badge" class="badge-review hidden">Review Recommended</span>
             </div>
           </div>
         </div>
@@ -142,15 +155,36 @@
     <main id="tab-worksheets" class="tab-content">
       <div class="card">
         <h2>Vernacular Worksheet Generator</h2>
-        <p class="subtitle">Upload classroom curriculum PDF to automatically generate source-grounded bilingual worksheets.</p>
+        <p class="subtitle">Generate source-grounded bilingual FLN worksheets with questions translated into Santali Ol Chiki.</p>
 
-        <div class="upload-section">
-          <div class="upload-dropzone" id="pdf-dropzone">
-            <span class="drop-icon">📑</span>
-            <h3>Drag & Drop Lesson PDF here</h3>
-            <p>or click to browse from computer</p>
-            <input type="file" id="pdf-file-input" accept=".pdf" class="file-input-hidden">
-            <button id="btn-sample-pdf" class="btn btn-outline">📂 Load Class 1 Fruits Demo PDF</button>
+        <div class="worksheet-creation-panel">
+          <div class="topic-selection-row">
+            <div class="input-group">
+              <label for="ws-topic-select">Select Lesson Topic:</label>
+              <select id="ws-topic-select" class="input-select">
+                <option value="फलों के नाम (Fruits)">फलों के नाम (Fruits)</option>
+                <option value="संख्याएँ (Numbers 1-10)">संख्याएँ (Numbers 1-10)</option>
+                <option value="पशु-पक्षी (Animals & Birds)">पशु-पक्षी (Animals & Birds)</option>
+                <option value="कक्षा व शिक्षा (Classroom & Learning)">कक्षा व शिक्षा (Classroom & Learning)</option>
+                <option value="प्रकृति व पेड़-पौधे (Nature & Plants)">प्रकृति व पेड़-पौधे (Nature & Plants)</option>
+                <option value="custom">Custom Text / Upload PDF</option>
+              </select>
+            </div>
+
+            <div class="input-group" id="custom-topic-group" style="display: none;">
+              <label for="ws-custom-topic">Custom Topic / Words:</label>
+              <input type="text" id="ws-custom-topic" placeholder="e.g. आम सेब केला" class="input-text">
+            </div>
+
+            <button id="btn-generate-ws-topic" class="btn btn-primary">Generate Worksheet</button>
+          </div>
+
+          <div class="upload-section">
+            <div class="upload-dropzone" id="pdf-dropzone">
+              <h3>Upload Curriculum PDF</h3>
+              <p>Click to browse or drop PDF from textbook</p>
+              <input type="file" id="pdf-file-input" accept=".pdf" class="file-input-hidden">
+            </div>
           </div>
         </div>
 
@@ -165,14 +199,14 @@
               <span id="ws-status-pill" class="pill pill-draft">DRAFT</span>
             </div>
             <div class="ctrl-actions">
-              <button id="btn-approve-ws" class="btn btn-success">✅ Approve Worksheet</button>
-              <button id="btn-export-student-pdf" class="btn btn-primary">📥 Export Student PDF</button>
-              <button id="btn-export-answer-key" class="btn btn-secondary">🔑 Export Answer Key</button>
+              <button id="btn-approve-ws" class="btn btn-success">Approve Worksheet</button>
+              <button id="btn-export-student-pdf" class="btn btn-primary">Export Student PDF</button>
+              <button id="btn-export-answer-key" class="btn btn-secondary">Export Answer Key</button>
             </div>
           </div>
 
           <div class="questions-list" id="questions-list">
-            <!-- Questions rendered dynamically -->
+            <!-- Questions rendered dynamically with Santali translations -->
           </div>
         </div>
       </div>
@@ -181,13 +215,22 @@
     <!-- TAB 4: Flashcards -->
     <main id="tab-flashcards" class="tab-content">
       <div class="card">
-        <h2>Visual Vernacular Flashcards</h2>
-        <p class="subtitle">Audio-enabled vocabulary flashcards extracted from classroom lessons.</p>
+        <h2>Vernacular Vocabulary Flashcards</h2>
+        <p class="subtitle">Interactive vocabulary flashcards with Santali Ol Chiki and authentic spoken pronunciation.</p>
+
+        <div class="flashcard-category-bar">
+          <button class="pill-btn active" data-category="all">All Words</button>
+          <button class="pill-btn" data-category="Fruits">Fruits</button>
+          <button class="pill-btn" data-category="Numbers">Numbers</button>
+          <button class="pill-btn" data-category="Nature">Nature</button>
+          <button class="pill-btn" data-category="Classroom">Classroom</button>
+          <button class="pill-btn" data-category="Phrases">Phrases</button>
+        </div>
 
         <div class="flashcard-carousel-container">
-          <button id="btn-prev-card" class="carousel-btn">❮</button>
+          <button id="btn-prev-card" class="carousel-btn" title="Previous Card">&lt;</button>
           <div class="flashcard" id="flashcard-active">
-            <div class="card-icon" id="card-icon">🥭</div>
+            <div class="card-category-tag" id="card-category-tag">Fruits</div>
             <div class="card-words">
               <h3 class="card-hindi" id="card-hindi">आम</h3>
               <h2 class="card-santali font-olchiki" id="card-santali">ᱩᱞ</h2>
@@ -197,26 +240,86 @@
               <p id="card-ex-hindi">यह एक आम है।</p>
               <p id="card-ex-santali" class="font-olchiki">ᱱᱚᱣᱟ ᱫᱚ ᱩᱞ ᱠᱟᱱᱟ ᱾</p>
             </div>
-            <button id="btn-play-card" class="btn btn-primary btn-round">🔊 Listen Pronunciation</button>
+            <button id="btn-play-card" class="btn btn-primary btn-round">Listen Pronunciation</button>
           </div>
-          <button id="btn-next-card" class="carousel-btn">❯</button>
+          <button id="btn-next-card" class="carousel-btn" title="Next Card">&gt;</button>
         </div>
-        <p class="carousel-counter"><span id="current-card-idx">1</span> of <span id="total-card-count">6</span></p>
+        <p class="carousel-counter"><span id="current-card-idx">1</span> of <span id="total-card-count">8</span></p>
       </div>
     </main>
 
-    <!-- TAB 5: Offline Resources -->
+    <!-- TAB 5: Ho & Mundari Roadmap -->
+    <main id="tab-munda" class="tab-content">
+      <div class="card">
+        <h2>Munda Languages Architecture: Ho &amp; Mundari Lead</h2>
+        <p class="subtitle">Comparative linguistic foundations and implementation roadmap for upcoming tribal languages.</p>
+
+        <div class="munda-overview-grid">
+          <div class="munda-card">
+            <h3>Santali (ᱥᱟᱱᱛᱟᱲᱤ)</h3>
+            <p class="badge-active">Status: Active &amp; Implemented</p>
+            <p><strong>Script:</strong> Ol Chiki (ᱚᱞ ᱪᱤᱠᱤ)</p>
+            <p><strong>Region:</strong> Santhal Pargana, Mayurbhanj, Purulia</p>
+            <p><strong>TTS Engine:</strong> Phonetic Indic Transliteration + Neural Audio</p>
+          </div>
+
+          <div class="munda-card">
+            <h3>Ho (ᱦᱳ)</h3>
+            <p class="badge-roadmap">Status: Stage 1 Architecture Ready</p>
+            <p><strong>Script:</strong> Warang Chiti (𑢹𑣉𑣉) / Devanagari</p>
+            <p><strong>Region:</strong> Kolhan Division (Singhbhum), Mayurbhanj</p>
+            <p><strong>Target Model:</strong> Meta MMS (`hoc`), MMS-TTS</p>
+          </div>
+
+          <div class="munda-card">
+            <h3>Mundari (ᱢᱩᱱᱰᱟᱨᱤ)</h3>
+            <p class="badge-roadmap">Status: Stage 1 Architecture Ready</p>
+            <p><strong>Script:</strong> Devanagari / Mundari Bani</p>
+            <p><strong>Region:</strong> Ranchi, Khunti, Gumla, Simdega</p>
+            <p><strong>Target Model:</strong> Meta MMS (`unr`), MMS-TTS</p>
+          </div>
+        </div>
+
+        <div class="munda-table-container">
+          <h3>Sister Languages Comparative Lexicon (FLN Terms)</h3>
+          <table class="data-table" id="munda-lexicon-table">
+            <thead>
+              <tr>
+                <th>Hindi Term</th>
+                <th>Santali (Ol Chiki)</th>
+                <th>Ho (Cognate)</th>
+                <th>Mundari (Cognate)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>नमस्ते (Greetings)</td><td>ᱡᱚᱦᱟᱨ (Johar)</td><td>ᱡᱚᱦᱟᱨ (Johar)</td><td>ᱡᱚᱦᱟᱨ (Johar)</td></tr>
+              <tr><td>आम (Mango)</td><td>ᱩᱞ (Ul)</td><td>ᱩᱞᱤ (Uli)</td><td>ᱩᱞᱤ (Uli)</td></tr>
+              <tr><td>केला (Banana)</td><td>ᱠᱟᱭᱨᱟ (Kayra)</td><td>ᱠᱟᱫᱟᱞ (Kadal)</td><td>ᱠᱟᱫᱟᱞ (Kadal)</td></tr>
+              <tr><td>पानी (Water)</td><td>ᱫᱟᱜ (Dak')</td><td>ᱫᱟᱜ (Da')</td><td>ᱫᱟᱜ (Da')</td></tr>
+              <tr><td>पेड़ (Tree)</td><td>ᱫᱟᱨᱮ (Dare)</td><td>ᱫᱟᱨᱩ (Daru)</td><td>ᱫᱟᱨᱩ (Daru)</td></tr>
+              <tr><td>पत्ता (Leaf)</td><td>ᱥᱟᱠᱟᱢ (Sakam)</td><td>ᱥᱟᱠᱟᱢ (Sakam)</td><td>ᱥᱟᱠᱟᱢ (Sakam)</td></tr>
+              <tr><td>किताब (Book)</td><td>ᱯᱩᱛᱷᱤ (Puthi)</td><td>ᱯᱩᱛᱷᱤ (Puthi)</td><td>ᱯᱩᱛᱷᱤ (Puthi)</td></tr>
+              <tr><td>गाय (Cow)</td><td>ᱜᱟᱹᱭ (Gại)</td><td>ᱜᱟᱹᱭ (Gai)</td><td>ᱜᱟᱹᱭ (Gai)</td></tr>
+              <tr><td>एक (One)</td><td>ᱢᱤᱫ (Mid)</td><td>ᱢᱤᱭᱟᱹᱫ (Miyad)</td><td>ᱢᱤᱭᱟᱹᱫ (Miyad)</td></tr>
+              <tr><td>दो (Two)</td><td>ᱵᱟᱨ (Bar)</td><td>ᱵᱟᱨᱤᱭᱟ (Bariya)</td><td>ᱵᱟᱨᱤᱭᱟ (Bariya)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- TAB 6: Offline Resources -->
     <main id="tab-offline" class="tab-content">
       <div class="card">
-        <h2>Offline Model Manager & Diagnostics</h2>
+        <h2>Offline Model Manager &amp; Diagnostics</h2>
         <p class="subtitle">Low-resource device resource monitoring (~2 GB RAM CPU-only target).</p>
 
         <div class="offline-hero">
           <div>
             <h3>Prepare Classroom Offline Mode</h3>
-            <p>Pre-downloads and verifies all models so the application functions 100% without internet.</p>
+            <p>Verifies all cached models and audio so the application functions 100% without internet.</p>
           </div>
-          <button id="btn-prepare-offline" class="btn btn-primary btn-lg">⚡ Prepare Offline Mode</button>
+          <button id="btn-prepare-offline" class="btn btn-primary btn-lg">Prepare Offline Mode</button>
         </div>
 
         <div class="models-grid" id="models-grid">
@@ -224,7 +327,7 @@
         </div>
 
         <div class="memory-card">
-          <h3>RAM & Process Resource Monitor</h3>
+          <h3>RAM &amp; Process Resource Monitor</h3>
           <div class="memory-metrics" id="memory-metrics">
             Loading metrics...
           </div>
@@ -234,13 +337,8 @@
 
     <!-- Audio Player (Hidden) -->
     <audio id="global-audio-player"></audio>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-      <p>BhashAI • Smart India Hackathon Prototype • Hindi → Santali (Ol Chiki Script)</p>
-    </footer>
   </div>
 
   <script src="app.js"></script>
 </body>
-</html>
+</html>

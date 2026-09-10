@@ -30,18 +30,46 @@ async def generate_worksheet(request: WorksheetGenerateRequest):
             if not doc:
                 raise HTTPException(status_code=404, detail="Referenced lesson_id not found.")
             edu_content = doc["content"]
-        elif request.lesson_text:
-            # Synthetic lesson structure from raw text
+        elif request.lesson_text or request.topic:
+            # Topic vocabulary dictionary
+            topic_vocab_dict = {
+                "फल": ["आम", "सेब", "केला", "अंगूर", "संतरा", "अमरूद"],
+                "fruits": ["आम", "सेब", "केला", "अंगूर", "संतरा", "अमरूद"],
+                "संख्याएँ": ["एक", "दो", "तीन", "चार", "पाँच"],
+                "numbers": ["एक", "दो", "तीन", "चार", "पाँच"],
+                "पशु": ["गाय", "बकरी", "पेड़", "पत्ता", "दूध"],
+                "animals": ["गाय", "बकरी", "पेड़", "पत्ता", "दूध"],
+                "प्रकृति": ["पेड़", "पत्ता", "फूल", "घास", "नदी"],
+                "nature": ["पेड़", "पत्ता", "फूल", "घास", "नदी"],
+                "कक्षा": ["किताब", "कलम", "कापी", "मित्र", "नाम"],
+                "classroom": ["किताब", "कलम", "कापी", "मित्र", "नाम"],
+            }
+
+            topic_key = (request.topic or "").lower()
+            matching_words = []
+            for k, words in topic_vocab_dict.items():
+                if k in topic_key:
+                    matching_words = words
+                    break
+
+            if request.lesson_text:
+                extracted_words = request.lesson_text.split()
+            elif matching_words:
+                extracted_words = matching_words
+            else:
+                extracted_words = ["आम", "सेब", "केला", "पेड़", "पत्ता", "किताब"]
+
             edu_content = {
-                "title": f"कक्षा {request.grade} अभ्यास",
+                "title": f"कक्षा {request.grade} अभ्यास पत्रक: {request.topic or 'बुनियादी साक्षरता'}",
                 "grade": request.grade,
                 "subject": request.subject,
                 "topic": request.topic or "FLN अभ्यास",
-                "vocabulary": [{"word_hindi": w, "icon": "📚"} for w in request.lesson_text.split()[:request.num_questions]],
-                "source_document": "Manual Text Entry"
+                "vocabulary": [{"word_hindi": w} for w in extracted_words[:request.num_questions]],
+                "source_document": f"Topic: {request.topic or 'Classroom FLN'}"
             }
         else:
-            raise HTTPException(status_code=400, detail="Must provide either lesson_id or lesson_text.")
+            raise HTTPException(status_code=400, detail="Must provide either lesson_id, lesson_text, or topic.")
+
 
         ws_data = generator.generate_worksheet(
             educational_content=edu_content,

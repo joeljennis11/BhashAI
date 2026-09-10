@@ -11,6 +11,22 @@ from backend.services.flashcard_generator import FlashcardGenerator
 router = APIRouter(prefix="/api/flashcards", tags=["Flashcards"])
 
 
+@router.get("/default", response_model=FlashcardsResponse)
+async def get_default_flashcards():
+    """
+    Retrieves starter vocabulary flashcards across classroom categories.
+    """
+    generator = FlashcardGenerator.get_instance()
+    cards = generator.get_default_flashcards()
+
+    return FlashcardsResponse(
+        lesson_id="default_fln",
+        topic="Classroom FLN Vocabulary",
+        total_cards=len(cards),
+        cards=[FlashcardItem(**c) for c in cards]
+    )
+
+
 @router.get("/lesson/{doc_id}", response_model=FlashcardsResponse)
 async def get_lesson_flashcards(doc_id: str):
     """
@@ -31,3 +47,4 @@ async def get_lesson_flashcards(doc_id: str):
         total_cards=len(cards),
         cards=[FlashcardItem(**c) for c in cards]
     )
+

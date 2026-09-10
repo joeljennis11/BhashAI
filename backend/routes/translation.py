@@ -34,11 +34,13 @@ async def translate_text(request: TranslationRequest):
 
         # Optional TTS synthesis url if target is Santali
         audio_url = None
+        phonetic_text = None
         if result["translation"] and request.target_language == "sat_Olck":
             try:
                 tts = SantaliTTSService.get_instance()
                 audio_res = tts.synthesize(result["translation"])
                 audio_url = audio_res.get("audio_url")
+                phonetic_text = audio_res.get("phonetic_text")
             except Exception:
                 pass
 
@@ -50,7 +52,8 @@ async def translate_text(request: TranslationRequest):
             issues=result["issues"],
             context_applied=result["context_applied"],
             detected_topic=result["detected_topic"],
-            audio_url=audio_url
+            audio_url=audio_url,
+            phonetic_text=phonetic_text
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Translation error: {str(e)}")
@@ -75,7 +78,7 @@ async def translate_voice(
 
         # 1. Hindi ASR
         t_asr = time.time()
-        asr_service = SpeechToTextService.get_instance()
+        asr_service = SpeechToTextService.get_instance(model_size="base")
         asr_res = asr_service.transcribe(audio_bytes, language="hi")
         hindi_text = asr_res["text"]
         asr_latency = round(time.time() - t_asr, 3)
@@ -100,6 +103,7 @@ async def translate_voice(
         tts_service = SantaliTTSService.get_instance()
         tts_res = tts_service.synthesize(santali_text)
         audio_url = tts_res["audio_url"]
+        phonetic_text = tts_res.get("phonetic_text")
         tts_latency = round(time.time() - t_tts, 3)
 
         total_latency = round(time.time() - t_start, 3)
@@ -115,8 +119,10 @@ async def translate_voice(
             asr_latency=asr_latency,
             translation_latency=trans_latency,
             tts_latency=tts_latency,
-            total_latency=total_latency
+            total_latency=total_latency,
+            phonetic_text=phonetic_text
         )
+
 
     except HTTPException:
         raise
